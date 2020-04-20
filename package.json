@@ -1,0 +1,25 @@
+{
+  "name": "country_project",
+  "version": "1.0.0",
+  "description": "It is a project to introduce the country.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IDU-SW/country_project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/IDU-SW/country_project/issues"
+  },
+  "homepage": "https://github.com/IDU-SW/country_project#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "pm2": "^4.3.1",
+    "serve-favicon": "^2.5.0"
+  }
+}
