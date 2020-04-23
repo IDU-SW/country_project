@@ -15,9 +15,11 @@ class country {
     getcontrydetal(id){
         return new Promise((resolve,reject)=>{
             for(var object of this.data){
-                console.log(object);
-                resolve(object);
-                return;
+                if(object.id == id){
+                    console.log(object);
+                    resolve(object);
+                    return;
+                }
             }
             reject({msg:id+' not found',cod:404});
        });
