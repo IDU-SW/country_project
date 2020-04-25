@@ -5,6 +5,9 @@ const country = require('../model/country');
 
 router.get('/country', countryList);
 router.get('/country/:id', countryDetail);
+router.post('/country', addcountry);
+
+module.exports = router;
 
 function countryList(req, res) {
 
@@ -21,5 +24,8 @@ async function countryDetail(req, res) {
     res.send(data);
 }
 
+function addcountry(req,res) {
+    console.log(req)
+    res.send();
+}
 
-module.exports = router;

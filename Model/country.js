@@ -24,6 +24,12 @@ class country {
             reject({msg:id+' not found',cod:404});
        });
     }
-
+    
+    addcontry(data){
+        return new Promise((resolve,reject)=>{
+            const add_idx =this.data[this.data.length-1].id;
+            console.log(add_idx)
+        });
+    }
 }
 module.exports = new country();
