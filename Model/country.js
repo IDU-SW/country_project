@@ -57,5 +57,17 @@ class country {
             reject({ msg: id + ' not update', code: 404 });
         });
     }
+    deltecountry(id){
+        return new Promise((resolve, reject) => {
+            for (var object of this.data) {
+                if (object.id == id) {
+                    this.data.splice(object.id,1);
+                    resolve(this.data);
+                    return;
+                }
+            }
+            reject({ msg: id + ' not update', code: 404 });
+        });
+    }
 }
 module.exports = new country();

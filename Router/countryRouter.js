@@ -8,6 +8,7 @@ router.get('/country', countryList);
 router.get('/country/:id', countryDetail);
 router.post('/country', addcountry);
 router.put('/country', updatecountry);
+router.delete('/country/:id', deltecountry);
 module.exports = router;
 
 function countryList(req, res) {
@@ -46,4 +47,15 @@ async function updatecountry(req,res){
         res.status(500).send(error.msg);
     }
 
+}
+
+async function deltecountry(req,res) {
+    const id = req.params.id;
+    
+    try {
+        const result = await country.deltecountry(id);
+        res.send({ msg: 'success', data: result });
+    } catch (error) {
+        res.status(500).send(error.msg);
+    }
 }
