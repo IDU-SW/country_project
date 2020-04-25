@@ -61,7 +61,7 @@ class country {
             for (var object of this.data) {
                 if (object.id == id) {
                     this.data.splice(object.id,1);
-                    resolve(this.data);
+                    resolve(object.id);
                     return;
                 }
             }

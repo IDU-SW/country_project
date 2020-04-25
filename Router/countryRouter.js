@@ -36,7 +36,7 @@ async function addcountry(req, res) {
 
 async function updatecountry(req,res){
     const data = req.body;
-    if(data.id=""){
+    if(data.id==""){
         res.status(400).send({error:'id 누락'});
         return;
     }
@@ -53,7 +53,7 @@ async function deltecountry(req,res) {
     const id = req.params.id;
     try {
         const result = await country.deltecountry(id);
-        res.send({ msg: 'success', data: result });
+        res.send({ msg: 'success', data: result+"번 삭제 완료" });
     } catch (error) {
         res.status(500).send(error.msg);
     }
