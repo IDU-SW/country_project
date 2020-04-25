@@ -7,6 +7,7 @@ const country = require('../model/country');
 router.get('/country', countryList);
 router.get('/country/:id', countryDetail);
 router.post('/country', addcountry);
+router.put('/country', updatecountry);
 module.exports = router;
 
 function countryList(req, res) {
@@ -32,3 +33,17 @@ async function addcountry(req, res) {
     }
 }
 
+async function updatecountry(req,res){
+    const data = req.body;
+    if(data.id=""){
+        res.status(400).send({error:'id 누락'});
+        return;
+    }
+    try {
+        const result = await country.updatecontry(data);
+        res.send({ msg: 'success', data: result });
+    } catch (error) {
+        res.status(500).send(error.msg);
+    }
+
+}

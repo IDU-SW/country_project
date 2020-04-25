@@ -21,7 +21,7 @@ class country {
                     return;
                 }
             }
-            reject({ msg: id + ' not found', cod: 404 });
+            reject({ msg: id + ' not found', code: 404 });
         });
     }
 
@@ -34,12 +34,28 @@ class country {
                 capital:data.capital,
                 area:data.area,
                 language:data.language,
-                currency:data.currency,
+                currency:data.currency
             }
             this.data.push(newcontry);
             resolve(newcontry);
         });
-       
+    }
+
+    updatecontry(data){
+        return new Promise((resolve, reject) => {
+            for (var object of this.data) {
+                if (object.id == data.id) {
+                    object.country=data.country;
+                    object.capital=data.capital;
+                    object.area=data.area;
+                    object.language=data.language;
+                    object.currency=data.currency;
+                    resolve(object);
+                    return;
+                }
+            }
+            reject({ msg: id + ' not update', code: 404 });
+        });
     }
 }
 module.exports = new country();
