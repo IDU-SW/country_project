@@ -16,7 +16,6 @@ class country {
         return new Promise((resolve, reject) => {
             for (var object of this.data) {
                 if (object.id == id) {
-                    console.log(object);
                     resolve(object);
                     return;
                 }
@@ -66,7 +65,7 @@ class country {
                     return;
                 }
             }
-            reject({ msg: id + ' not update', code: 404 });
+            reject({ msg: id + ' not found', code: 404 });
         });
     }
 }

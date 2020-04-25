@@ -51,7 +51,6 @@ async function updatecountry(req,res){
 
 async function deltecountry(req,res) {
     const id = req.params.id;
-    
     try {
         const result = await country.deltecountry(id);
         res.send({ msg: 'success', data: result });
