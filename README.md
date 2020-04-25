@@ -59,7 +59,7 @@ npm install
             "language": "영어",
             "currency": "GHS"
         },
-        ..
+        //생략
         ]
 }
 ```
