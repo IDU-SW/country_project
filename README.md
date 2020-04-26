@@ -107,17 +107,17 @@ npm install
 
 #### 요청
 
-|    업무     | 국가 정보 리스트 |              |
-| :---------: | ---------------- | ------------ |
-|     URL     | /country/        | ID : 국가 ID |
-|   URL 예    | /country/1       |              |
-| 요청 메소드 | POST             |              |
-| 콘텐츠 타입 | application/json |              |
-| 메세지 구조 | country          |              |
-|             | capital          |              |
-|             | area             |              |
-|             | language         |              |
-|             | currency         |              |
+|    업무     | 국가 정보 리스트 |
+| :---------: | ---------------- |
+|     URL     | /country         |
+|   URL 예    | /country         |
+| 요청 메소드 | POST             |
+| 콘텐츠 타입 | application/json |
+| 메세지 구조 | country          |
+|             | capital          |
+|             | area             |
+|             | language         |
+|             | currency         |
 
 ##### 요청 메시지 예
 
@@ -171,7 +171,7 @@ npm install
 | :---------: | ---------------- |
 |     URL     | /country         |
 |   URL 예    | /country         |
-| 요청 메소드 | POST             |
+| 요청 메소드 | PUT              |
 | 콘텐츠 타입 | application/json |
 | 메세지 구조 | id               |
 |             | country          |
@@ -233,7 +233,7 @@ npm install
 | :---------: | ---------------- | ------------ |
 |     URL     | /country/ID      | ID : 국가 ID |
 |   URL 예    | /country/1       |              |
-| 요청 메소드 | GET              |              |
+| 요청 메소드 | DELETE           |              |
 
 #### 응답
 
