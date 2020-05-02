@@ -1,11 +1,30 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
+<% include include/head %>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <div class="table-responsive">
+      <table class="table table-striped table-sm">
+        <thead>
+          <tr>
+            <th>id</th>
+            <th>국가명</th>
+            <th>수도</th>
+            <th>지역</th>
+            <th>언어</th>
+            <th>화패</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for(i = 0 ; i < result.count ; i++){ %>
+          <tr>
+            <td><a href='/country/<%=result.data[i].id %>'><%= result.data[i].id %></a></td>
+            <td><%= result.data[i].country %></td>
+            <td><%= result.data[i].capital %></td>
+            <td><%= result.data[i].area %></td>
+            <td><%= result.data[i].language %></td>
+            <td><%= result.data[i].currency %></td>
+          </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
   </body>
 </html>

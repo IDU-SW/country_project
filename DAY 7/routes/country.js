@@ -2,24 +2,29 @@ const express = require('express');
 const router = express.Router();
 const country = require('../model/country');
 
-router.get('/country', countryList);
-router.get('/country/:id', countryDetail);
-router.post('/country', addcountry);
-router.put('/country', updatecountry);
-router.delete('/country/:id', deltecountry);
+
+
+router.get('/', countryList);
+router.get('/:id', countryDetail);
+router.post('/', addcountry);
+router.put('/', updatecountry);
+router.delete('/:id', deltecountry);
+
 module.exports = router;
 
 function countryList(req, res) {
     const countryList = country.getcontryList();
     const data = countryList;
     const result = { count: data.length, data: data };
-    res.send(result);
+    // res.send(result);
+    res.render('index', { result: result });
 }
 
 async function countryDetail(req, res) {
     const id = req.params.id;
     const data = await country.getcontrydetal(id);
-    res.send(data);
+    // res.send(data);
+    res.render('detail', { result: data });
 }
 
 async function addcountry(req, res) {
