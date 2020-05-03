@@ -9,7 +9,10 @@ npm install
 ``` 
 pm2 start ./bin/www --watch
 ```
-
+안된다면
+```
+node ./bin/www
+```
 
 ## 🎈실행 화면
 ![](https://github.com/lhj0621/imagetemp/blob/master/country_play3.gif?raw=true)
