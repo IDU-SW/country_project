@@ -10,7 +10,14 @@ npm install
 pm2 start ./bin/www --watch
 ```
 
+
+## 🎈실행 화면
+![](https://github.com/lhj0621/imagetemp/blob/master/country_play3.gif?raw=true)
+
+
+
 ##  🚩 Contents
+
 - [국가 정보 리스트](#국가-정보-리스트)
 - [국가 상세 정보](#국가-상세-정보)
 - [국가 추가](#국가-추가)
