@@ -1,0 +1,49 @@
+<% include include/head %>
+<div class="row">
+    <div class="col-md-12 order-md-1">
+        <h1 class="mb-3">국가 추가</h1>
+        <form class="needs-validation" novalidate="" action="/country" method="POST">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+                <label>국가명</label>
+                <input type="text" class="form-control" name="country">
+                <div class="invalid-feedback">
+                    국가명을 입력하세요
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>수도</label>
+                <input type="text" class="form-control" name="capital">
+                <div class="invalid-feedback">
+                    수도명을 입력하세요
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label >지역</label>
+                <input type="text" class="form-control" name="area">
+                <div class="invalid-feedback">
+                지역명을 입력하세요
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>언어</label>
+                <input type="text" class="form-control" name="language">
+                <div class="invalid-feedback">
+                공용 언어를 입력하세요
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>화폐</label>
+                <input type="text" class="form-control" name="currency">
+                <div class="invalid-feedback">
+                화폐를 입력하세요
+                </div>
+            </div>
+          </div>
+
+          <hr class="mb-4">
+          <button class="btn btn-primary btn-lg btn-block" type="submit">저장</button>
+        </form>
+      </div>
+</div>
+<% include include/foot %>

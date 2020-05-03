@@ -1,0 +1,50 @@
+<% include include/head %>
+<div class="row">
+    <div class="col-md-12 order-md-1">
+        <h1 class="mb-3">국가 수정</h1>
+        <form class="needs-validation" method="POST" action="/country?_method=PUT" >
+            <input type="hidden" name="_method" value="put"/>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+                <label>국가명</label>
+                <input type="text" class="form-control" name="country" value="<%=result.country%>">
+                <div class="invalid-feedback">
+                    국가명을 입력하세요
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>수도</label>
+                <input type="text" class="form-control" name="capital" value="<%=result.capital%>">
+                <div class="invalid-feedback">
+                    수도명을 입력하세요
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label >지역</label>
+                <input type="text" class="form-control" name="area" value="<%=result.area%>">
+                <div class="invalid-feedback">
+                지역명을 입력하세요
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>언어</label>
+                <input type="text" class="form-control" name="language" value="<%=result.language%>">
+                <div class="invalid-feedback">
+                공용 언어를 입력하세요
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>화폐</label>
+                <input type="text" class="form-control" name="currency" value="<%=result.currency%>">
+                <div class="invalid-feedback">
+                화폐를 입력하세요
+                </div>
+            </div>
+          </div>
+            <input type="hidden" class="form-control" name="id" value="<%=result.id%>">
+          <hr class="mb-4">
+          <button class="btn btn-primary btn-lg btn-block" type="submit">저장</button>
+        </form>
+      </div>
+</div>
+<% include include/foot %>

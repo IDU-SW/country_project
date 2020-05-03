@@ -5,6 +5,8 @@ const country = require('../model/country');
 
 
 router.get('/', countryList);
+router.get('/add', countryaddform);
+router.get('/edit/:id', countryEditform);
 router.get('/:id', countryDetail);
 router.post('/', addcountry);
 router.put('/', updatecountry);
@@ -25,6 +27,17 @@ async function countryDetail(req, res) {
     const data = await country.getcontrydetal(id);
     // res.send(data);
     res.render('detail', { result: data });
+}
+
+function countryaddform(req,res){
+    res.render('add');
+}
+
+async function countryEditform(req, res) {
+    const id = req.params.id;
+    const data = await country.getcontrydetal(id);
+    // res.send(data);
+    res.render('edit', { result: data });
 }
 
 async function addcountry(req, res) {
