@@ -6,8 +6,8 @@ const country = require('../model/country');
 
 router.get('/', countryList);
 router.get('/add', countryaddform);
-router.get('/edit/:id', countryEditform);
 router.get('/:id', countryDetail);
+router.get('/edit/:id', countryEditform);
 router.post('/', addcountry);
 router.put('/', updatecountry);
 router.delete('/:id', deltecountry);
