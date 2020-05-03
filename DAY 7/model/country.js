@@ -60,7 +60,8 @@ class country {
         return new Promise((resolve, reject) => {
             for (var object of this.data) {
                 if (object.id == id) {
-                    this.data.splice(object.id,1);
+                    const search = this.data.indexOf(object);
+                    this.data.splice(search,1);
                     resolve(object.id);
                     return;
                 }

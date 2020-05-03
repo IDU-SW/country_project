@@ -1,9 +1,13 @@
 <% include include/head %>
 <div class="container">
-    <h1 class="mt-5"><%= result.country%></h1>
-    <p class="lead"><%= result.capital%></p>
-    <p class="lead"><%= result.area%></p>
-    <p class="lead"><%= result.language%></p>
-    <p class="lead"><%= result.currency%></p>
+    <h1>국가 상세</h1>
+    <h4>국가명 : <%= result.country%></h4>
+    <h4>수도명 : <%= result.capital%></h4>
+    <h4>지역명 : <%= result.area%></h4>
+    <h4>언어 : <%= result.language%></h4>
+    <h4>화폐 : <%= result.currency%></h4>
+    <p class="lead">
+        <a href="/country" class="btn btn-lg btn-info">메인으로</a>
+    </p>
 </div>
 <% include include/foot %>
