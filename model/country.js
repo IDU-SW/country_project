@@ -66,21 +66,35 @@ class country {
         
     }
 
-    updatecontry(data) {
-        return new Promise((resolve, reject) => {
-            for (var object of this.data) {
-                if (object.id == data.id) {
-                    object.country = data.country;
-                    object.capital = data.capital;
-                    object.area = data.area;
-                    object.language = data.language;
-                    object.currency = data.currency;
-                    resolve(object);
-                    return;
-                }
+    updatecontry = async (data) => {
+        const sql = 'UPDATE country SET ? WHERE id = ?';
+        const param = {
+            country : data.country,
+            capital : data.capital,
+            area : data.area,
+            language : data.language,
+            currency : data.currency,
+        }
+        const condition = data.id;
+
+        let conn;
+        try {
+            conn = await pool.getConnection();
+            const ret = await conn.query(sql, [param, condition] );
+            const info = ret[0];
+
+            console.log('수정 대상 Row(affectedRows) :', info['affectedRows']);
+            console.log('수정된 Row(changedRows) :', info['changedRows']); 
+            console.log('메세지 :', info['info']); 
+
+            return this.getcontrydetail(condition);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            if (conn) {
+                conn.release();
             }
-            reject({ msg: id + ' not update', code: 404 });
-        });
+        }
     }
     deltecountry(id) {
         return new Promise((resolve, reject) => {

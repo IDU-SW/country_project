@@ -55,7 +55,7 @@ async function updatecountry(req, res) {
     }
     try {
         const result = await country.updatecontry(data);
-        res.render('success', { msg: 'success', data: result, type: 'edit' });
+        res.render('success', { msg: 'success', data: result[0], type: 'edit' });
     } catch (error) {
         res.status(500).send(error.msg);
     }
