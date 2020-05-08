@@ -96,18 +96,21 @@ class country {
             }
         }
     }
-    deltecountry(id) {
-        return new Promise((resolve, reject) => {
-            for (var object of this.data) {
-                if (object.id == id) {
-                    const search = this.data.indexOf(object);
-                    this.data.splice(search, 1);
-                    resolve(object.id);
-                    return;
-                }
+    deltecountry = async (id) => {
+        let conn;
+        try {
+            conn = await pool.getConnection();
+            const sql = 'DELETE FROM country WHERE id = ?';
+            const ret= await conn.query(sql,id);
+            const info = ret[0];
+            console.log('삭제 대상 Row(affectedRows) :', info['affectedRows']);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            if (conn) {
+                conn.release();
             }
-            reject({ msg: id + ' not found', code: 404 });
-        });
+        }
     }
 }
 module.exports = new country();
