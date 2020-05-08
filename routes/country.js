@@ -22,8 +22,8 @@ async function countryList(req, res) {
 
 async function countryDetail(req, res) {
     const id = req.params.id;
-    const data = await country.getcontrydetal(id);
-    res.render('detail', { result: data });
+    const data = await country.getcontrydetail(id);
+    res.render('detail', { result: data[0] });
 }
 
 function countryaddform(req, res) {
@@ -32,16 +32,16 @@ function countryaddform(req, res) {
 
 async function countryEditform(req, res) {
     const id = req.params.id;
-    const data = await country.getcontrydetal(id);
+    const data = await country.getcontrydetail(id);
     // res.send(data);
-    res.render('edit', { result: data });
+    res.render('edit', { result: data[0] });
 }
 
 async function addcountry(req, res) {
     const data = req.body;
     try {
         const result = await country.addcontry(data);
-        res.render('success', { msg: 'success', data: result, type: 'add' });
+        res.render('success', { msg: 'success', data: result[0], type: 'add' });
     } catch (error) {
         res.status(500).send(error.msg);
     }

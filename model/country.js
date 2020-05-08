@@ -24,12 +24,12 @@ class country {
         }
     }
 
-    getcontrydetal = async (id) => {
+    getcontrydetail = async (id) => {
         let conn;
         try {
             conn = await pool.getConnection();
             const sql = 'SELECT * FROM country WHERE id = ?;';
-            const [rows, metadata] = await conn.query(sql);
+            const [rows, metadata] = await conn.query(sql,id);
             return rows;
         } catch (error) {
             console.error(error);
@@ -40,20 +40,30 @@ class country {
         }
     }
 
-    addcontry(data) {
-        return new Promise((resolve, reject) => {
-            const add_idx = this.data[this.data.length - 1].id + 1;
+    addcontry = async (data) => {
+        let conn;
+        try {
+            conn = await pool.getConnection();
+            const sql1 = 'INSERT INTO country SET ?';
             const newcontry = {
-                id: add_idx,
                 country: data.country,
                 capital: data.capital,
                 area: data.area,
                 language: data.language,
                 currency: data.currency
             }
-            this.data.push(newcontry);
-            resolve(newcontry);
-        });
+            const ret = await conn.query(sql1, newcontry);
+            const sql2 = 'SELECT * FROM country WHERE id = ?;';
+            const [rows, metadata] = await conn.query(sql2,ret[0].insertId);
+            return rows;
+        } catch (error) {
+            console.error(error);
+        } finally {
+            if (conn) {
+                conn.release();
+            }
+        }
+        
     }
 
     updatecontry(data) {
