@@ -14,11 +14,11 @@ router.delete('/:id', deltecountry);
 
 module.exports = router;
 
-function countryList(req, res) {
-    const countryList = country.getcontryList();
-    const data = countryList;
-    const result = { count: data.length, data: data };
+async function countryList(req, res) {
+    const countryList = await country.getcontryList();
+    const result = { count: countryList.length, data: countryList };
     // res.send(result);
+    console.log(result);
     res.render('index', { result: result });
 }
 
@@ -44,7 +44,7 @@ async function addcountry(req, res) {
     const data = req.body;
     try {
         const result = await country.addcontry(data);
-        res.render('success', { msg: 'success', data: result, type: 'add' });
+        res.render('success', { msg: 'success', data: result[0], type: 'add' });
     } catch (error) {
         res.status(500).send(error.msg);
     }

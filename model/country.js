@@ -6,7 +6,7 @@ const sequelize = new Sequelize('example', 'dev', 'cometrue', {
     host: '127.0.0.1',
 });
 
-// const Op = Sequelize.Op
+const Op = Sequelize.Op
 
 class Countries extends Sequelize.Model { }
 
@@ -49,55 +49,61 @@ class country {
     }
 
     async getcontryList() {
-        Countries.findAll({})
-        .then( results => {
-            return results
-        })
-        .catch( error => {
-            console.error('Error :', error);
-        });
+        let returnval;
+        await Countries.findAll({})
+            .then(results => {
+                for (var item of results) {
+                    console.log('id:', item.id);
+                }
+                returnval = results;
+            })
+            .catch(error => {
+                console.error('Error :', error);
+            });
+            return returnval;
     }
 
     async getcontrydetal(id) {
         try {
-            let result = Countries.findOne({where: {id: {[Op.eq]: id}}});
-            if ( result ) {
-                console.log(result.dataValues);
+            let result = await Countries.findOne({ where: { id: { [Op.eq]: id } } });
+            if (result) {
                 return result.dataValues;
             }
             else {
                 console.log('no data');
             }
-        }catch(error){
+        } catch (error) {
             console.log('Error :', error);
         }
     }
 
-    addcontry(data) {
-        return new Promise((resolve, reject) => {
-            const add_idx = this.data[this.data.length - 1].id + 1;
-            const newcontry = {
-                id:add_idx,
-                country:data.country,
-                capital:data.capital,
-                area:data.area,
-                language:data.language,
-                currency:data.currency
-            }
-            this.data.push(newcontry);
-            resolve(newcontry);
-        });
+    async addcontry(data) {
+        let returnval;
+        const country_data = [data];
+        try {
+            const creates = await country_data.map(item => Countries.create(item, { logging: false }));
+            await Promise.all(creates)
+            .then(ret => {
+                const newAddIds = ret.map(result => result.dataValues);
+                returnval = newAddIds;
+                }).catch(err => {
+                    console.error('Create Failure :', err);
+                });
+        } catch (error) {
+            console.log('Error :', error);
+        }
+        return returnval;
     }
 
-    updatecontry(data){
+    updatecontry(data) {
         return new Promise((resolve, reject) => {
             for (var object of this.data) {
                 if (object.id == data.id) {
-                    object.country=data.country;
-                    object.capital=data.capital;
-                    object.area=data.area;
-                    object.language=data.language;
-                    object.currency=data.currency;
+                    object.country = data.country;
+                    object.capital = data.capital;
+                    object.area = data.area;
+                    object.language = data.language;
+                    object.currency = data.currency;
                     resolve(object);
                     return;
                 }
@@ -105,12 +111,12 @@ class country {
             reject({ msg: id + ' not update', code: 404 });
         });
     }
-    deltecountry(id){
+    deltecountry(id) {
         return new Promise((resolve, reject) => {
             for (var object of this.data) {
                 if (object.id == id) {
                     const search = this.data.indexOf(object);
-                    this.data.splice(search,1);
+                    this.data.splice(search, 1);
                     resolve(object.id);
                     return;
                 }
