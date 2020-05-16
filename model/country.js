@@ -1,27 +1,76 @@
 const fs = require('fs');
+const Sequelize = require('sequelize');
+
+const sequelize = new Sequelize('example', 'dev', 'cometrue', {
+    dialect: 'mysql',
+    host: '127.0.0.1',
+});
+
+// const Op = Sequelize.Op
+
+class Countries extends Sequelize.Model { }
+
+Countries.init({
+    country: Sequelize.STRING(10),
+    capital: Sequelize.STRING(10),
+    area: Sequelize.STRING(10),
+    language: Sequelize.STRING(10),
+    currency: Sequelize.STRING(10),
+}, { tableName: 'Countries', timestamps: false, sequelize });
+
+class Contry_comment extends Sequelize.Model { }
+
+Contry_comment.init({
+    country_id: Sequelize.INTEGER,
+    comment: Sequelize.STRING(100),
+
+}, { tableName: 'Contry_comment', timestamps: false, sequelize });
 
 class country {
     constructor() {
-        const data = fs.readFileSync('./model/data.json');
-        this.data = JSON.parse(data);
-    }
-
-    getcontryList() {
-        if (this.data) {
-            return this.data;
+        try {
+            console.log("!!!!!!!!!!!!!");
+            this.prepareModel(); 
+        } catch (error) {
+            console.error(error);    
         }
     }
 
-    getcontrydetal(id) {
-        return new Promise((resolve, reject) => {
-            for (var object of this.data) {
-                if (object.id == id) {
-                    resolve(object);
-                    return;
-                }
-            }
-            reject({ msg: id + ' not found', code: 404 });
+    async prepareModel() {
+        try {
+            await Countries.sync({force:true});
+            await Contry_comment.sync({force:true});
+            Countries.hasMany(Contry_comment, {foreignKey:'country_id'});
+            // sequelize.close();
+        }
+        catch (error) {
+            console.log('country.sync Error ', error);
+        }
+    }
+
+    async getcontryList() {
+        Countries.findAll({})
+        .then( results => {
+            return results
+        })
+        .catch( error => {
+            console.error('Error :', error);
         });
+    }
+
+    async getcontrydetal(id) {
+        try {
+            let result = Countries.findOne({where: {id: {[Op.eq]: id}}});
+            if ( result ) {
+                console.log(result.dataValues);
+                return result.dataValues;
+            }
+            else {
+                console.log('no data');
+            }
+        }catch(error){
+            console.log('Error :', error);
+        }
     }
 
     addcontry(data) {
