@@ -25,7 +25,6 @@ async function countryDetail(req, res) {
     const id = req.params.id;
     const data = await country.getcontrydetal(id);
     const comment = await country.getcontry_comment(id);
-    console.log(comment);
     res.render('detail', { result: data ,comment:comment});
 }
 
@@ -76,6 +75,7 @@ async function deltecountry(req, res) {
     const id = req.params.id;
     try {
         const result = await country.deltecountry(id);
+        const result_sub = await country.deltecountry_comment(id);
         res.send({ msg: 'success', data: result + "번 삭제 완료" });
     } catch (error) {
         res.status(500).send(error.msg);

@@ -148,5 +148,14 @@ class country {
             console.log('Remove Error :', error);
         }
     }
+    async deltecountry_comment(id) {
+        try {
+            let result = await Contry_comment.destroy({ where: { country_id: { [Op.eq]:id } } });
+            console.log('Remove success :', result);
+        }
+        catch (error) {
+            console.log('Remove Error :', error);
+        }
+    }
 }
 module.exports = new country();
