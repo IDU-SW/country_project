@@ -29,18 +29,17 @@ Contry_comment.init({
 class country {
     constructor() {
         try {
-            console.log("!!!!!!!!!!!!!");
-            this.prepareModel(); 
+            this.prepareModel();
         } catch (error) {
-            console.error(error);    
+            console.error(error);
         }
     }
 
     async prepareModel() {
         try {
-            await Countries.sync({force:true});
-            await Contry_comment.sync({force:true});
-            Countries.hasMany(Contry_comment, {foreignKey:'country_id'});
+            // await Countries.sync({ force: true });
+            // await Contry_comment.sync({ force: true });
+            // Countries.hasMany(Contry_comment, { foreignKey: 'country_id' });
             // sequelize.close();
         }
         catch (error) {
@@ -52,15 +51,12 @@ class country {
         let returnval;
         await Countries.findAll({})
             .then(results => {
-                for (var item of results) {
-                    console.log('id:', item.id);
-                }
                 returnval = results;
             })
             .catch(error => {
                 console.error('Error :', error);
             });
-            return returnval;
+        return returnval;
     }
 
     async getcontrydetal(id) {
@@ -83,9 +79,9 @@ class country {
         try {
             const creates = await country_data.map(item => Countries.create(item, { logging: false }));
             await Promise.all(creates)
-            .then(ret => {
-                const newAddIds = ret.map(result => result.dataValues);
-                returnval = newAddIds;
+                .then(ret => {
+                    const newAddIds = ret.map(result => result.dataValues);
+                    returnval = newAddIds;
                 }).catch(err => {
                     console.error('Create Failure :', err);
                 });
@@ -95,34 +91,33 @@ class country {
         return returnval;
     }
 
-    updatecontry(data) {
-        return new Promise((resolve, reject) => {
-            for (var object of this.data) {
-                if (object.id == data.id) {
-                    object.country = data.country;
-                    object.capital = data.capital;
-                    object.area = data.area;
-                    object.language = data.language;
-                    object.currency = data.currency;
-                    resolve(object);
-                    return;
-                }
-            }
-            reject({ msg: id + ' not update', code: 404 });
-        });
+    async updatecontry(data) {
+        try {
+            let result = await Countries.update(
+                {
+                    country: data.country,
+                    capital: data.capital,
+                    area: data.area,
+                    title: data.title,
+                    language: data.language,
+                    currency: data.currency,
+                },
+                { where: { id: { [Op.eq]: data.id } } }
+            );
+            return result;
+        }
+        catch (error) {
+            console.log('Error :', error);
+        }
     }
-    deltecountry(id) {
-        return new Promise((resolve, reject) => {
-            for (var object of this.data) {
-                if (object.id == id) {
-                    const search = this.data.indexOf(object);
-                    this.data.splice(search, 1);
-                    resolve(object.id);
-                    return;
-                }
-            }
-            reject({ msg: id + ' not found', code: 404 });
-        });
+    async deltecountry(id) {
+        try {
+            let result = await Countries.destroy({ where: { id: { [Op.eq]:id } } });
+            console.log('Remove success :', result);
+        }
+        catch (error) {
+            console.log('Remove Error :', error);
+        }
     }
 }
 module.exports = new country();

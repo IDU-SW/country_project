@@ -17,15 +17,12 @@ module.exports = router;
 async function countryList(req, res) {
     const countryList = await country.getcontryList();
     const result = { count: countryList.length, data: countryList };
-    // res.send(result);
-    console.log(result);
     res.render('index', { result: result });
 }
 
 async function countryDetail(req, res) {
     const id = req.params.id;
     const data = await country.getcontrydetal(id);
-    // res.send(data);
     res.render('detail', { result: data });
 }
 
@@ -36,7 +33,6 @@ function countryaddform(req, res) {
 async function countryEditform(req, res) {
     const id = req.params.id;
     const data = await country.getcontrydetal(id);
-    // res.send(data);
     res.render('edit', { result: data });
 }
 
@@ -58,7 +54,7 @@ async function updatecountry(req, res) {
     }
     try {
         const result = await country.updatecontry(data);
-        res.render('success', { msg: 'success', data: result, type: 'edit' });
+        res.redirect('/country');
     } catch (error) {
         res.status(500).send(error.msg);
     }
