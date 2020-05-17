@@ -73,6 +73,20 @@ class country {
         }
     }
 
+    async getcontry_comment(id) {
+        try {
+            let result = await Contry_comment.findAll({ where: { country_id: { [Op.eq]: id } } });
+            if (result) {
+                return result;
+            }
+            else {
+                console.log('no data');
+            }
+        } catch (error) {
+            console.log('Error :', error);
+        }
+    }
+
     async addcontry(data) {
         let returnval;
         const country_data = [data];
@@ -90,6 +104,21 @@ class country {
         }
         return returnval;
     }
+    async addcomment(data) {
+        try {
+            const ret = await Contry_comment.create({
+                country_id: data.id,
+                comment: data.country
+            }, { logging: false });
+            const newData = ret.dataValues;
+            console.log(newData);
+            console.log('Create success');
+        }
+        catch (error) {
+            console.log('Error : ', error);
+        }
+    }
+    addcountry
 
     async updatecontry(data) {
         try {

@@ -9,6 +9,7 @@ router.get('/add', countryaddform);
 router.get('/:id', countryDetail);
 router.get('/edit/:id', countryEditform);
 router.post('/', addcountry);
+router.post('/comment', addcomment);
 router.put('/', updatecountry);
 router.delete('/:id', deltecountry);
 
@@ -23,7 +24,9 @@ async function countryList(req, res) {
 async function countryDetail(req, res) {
     const id = req.params.id;
     const data = await country.getcontrydetal(id);
-    res.render('detail', { result: data });
+    const comment = await country.getcontry_comment(id);
+    console.log(comment);
+    res.render('detail', { result: data ,comment:comment});
 }
 
 function countryaddform(req, res) {
@@ -45,7 +48,15 @@ async function addcountry(req, res) {
         res.status(500).send(error.msg);
     }
 }
-
+async function addcomment(req, res) {
+    const data = req.body;
+    try {
+        const result = await country.addcomment(data);
+        res.redirect('/country/'+data.id);
+    } catch (error) {
+        res.status(500).send(error.msg);
+    }
+}
 async function updatecountry(req, res) {
     const data = req.body;
     if (data.id == "") {
