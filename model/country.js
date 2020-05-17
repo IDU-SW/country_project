@@ -37,9 +37,9 @@ class country {
 
     async prepareModel() {
         try {
-            // await Countries.sync({ force: true });
-            // await Contry_comment.sync({ force: true });
-            // Countries.hasMany(Contry_comment, { foreignKey: 'country_id' });
+            await Countries.sync({ force: true });
+            await Contry_comment.sync({ force: true });
+            Countries.hasMany(Contry_comment, { foreignKey: 'country_id' });
             // sequelize.close();
         }
         catch (error) {
@@ -141,7 +141,7 @@ class country {
     }
     async deltecountry(id) {
         try {
-            let result = await Countries.destroy({ where: { id: { [Op.eq]:id } } });
+            let result = await Countries.destroy({ where: { id: { [Op.eq]: id } } });
             console.log('Remove success :', result);
         }
         catch (error) {
@@ -150,7 +150,7 @@ class country {
     }
     async deltecountry_comment(id) {
         try {
-            let result = await Contry_comment.destroy({ where: { country_id: { [Op.eq]:id } } });
+            let result = await Contry_comment.destroy({ where: { country_id: { [Op.eq]: id } } });
             console.log('Remove success :', result);
         }
         catch (error) {
