@@ -59,7 +59,7 @@ class country {
         return returnval;
     }
 
-    async getcontrydetal(id) {
+    async getcontrydetail(id) {
         try {
             let result = await Countries.findOne({ where: { id: { [Op.eq]: id } } });
             if (result) {
