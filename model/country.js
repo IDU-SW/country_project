@@ -12,7 +12,7 @@ class country {
         }
     }
 
-    getcontrydetal(id) {
+    getcontrydetail(id) {
         return new Promise((resolve, reject) => {
             for (var object of this.data) {
                 if (object.id == id) {

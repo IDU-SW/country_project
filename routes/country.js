@@ -24,7 +24,7 @@ function countryList(req, res) {
 
 async function countryDetail(req, res) {
     const id = req.params.id;
-    const data = await country.getcontrydetal(id);
+    const data = await country.getcontrydetail(id);
     // res.send(data);
     res.render('detail', { result: data });
 }
@@ -35,7 +35,7 @@ function countryaddform(req, res) {
 
 async function countryEditform(req, res) {
     const id = req.params.id;
-    const data = await country.getcontrydetal(id);
+    const data = await country.getcontrydetail(id);
     // res.send(data);
     res.render('edit', { result: data });
 }
