@@ -49,34 +49,50 @@ class country {
         }
     }
 
-    updatecontry(data) {
-        return new Promise((resolve, reject) => {
-            for (var object of this.data) {
-                if (object.id == data.id) {
-                    object.country = data.country;
-                    object.capital = data.capital;
-                    object.area = data.area;
-                    object.language = data.language;
-                    object.currency = data.currency;
-                    resolve(object);
-                    return;
-                }
+    async updatecontry(data) {
+        let country = this.db.collection('country');
+        try {
+            const docId = new ObjectID(data.id);
+            let returval = "";
+            await country.updateOne(
+                { _id: docId },
+                {
+                    $set: {
+                        country: data.country,
+                        capital: data.capital,
+                        area: data.area,
+                        language: data.language,
+                        currency: data.currency
+                    }
+                })
+                .then(
+                    result => {
+                        returval = "OK";
+                    })
+                .catch(err => {
+                    console.log('updatecontry Error', err);
+                });
+            if (returval == "OK") {
+                return data;
             }
-            reject({ msg: id + ' not update', code: 404 });
-        });
+        } catch (error) {
+            console.log('Error :', error);
+        }
     }
     deltecountry(id) {
-        return new Promise((resolve, reject) => {
-            for (var object of this.data) {
-                if (object.id == id) {
-                    const search = this.data.indexOf(object);
-                    this.data.splice(search, 1);
-                    resolve(object.id);
-                    return;
-                }
-            }
-            reject({ msg: id + ' not found', code: 404 });
-        });
+        try {
+            let country = this.db.collection('country');
+            const docId = new ObjectID(id);
+            country.deleteOne({ _id: docId })
+                .then(result => {
+                    console.log('deleteMany 성공. 결과 : ', result.result);
+                })
+                .catch(err => {
+                    console.log('Delete Many Fail : ', err);
+                });
+        } catch (error) {
+            console.log('Error :', error);
+        }
     }
 }
 module.exports = new country();
