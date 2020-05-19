@@ -118,7 +118,6 @@ class country {
             console.log('Error : ', error);
         }
     }
-    addcountry
 
     async updatecontry(data) {
         try {
