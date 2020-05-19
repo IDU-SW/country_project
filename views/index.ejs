@@ -23,14 +23,14 @@
         <tbody>
           <% for(i = 0 ; i < result.count ; i++){ %>
           <tr>
-            <td><a href='/country/<%=result.data[i].id %>'><%= result.data[i].id %></a></td>
+            <td><a href='/country/<%=result.data[i]._id %>'><%=i+1%></a></td>
             <td><%= result.data[i].country %></td>
             <td><%= result.data[i].capital %></td>
             <td><%= result.data[i].area %></td>
             <td><%= result.data[i].language %></td>
             <td><%= result.data[i].currency %></td>
-            <th><a href='/country/edit/<%=result.data[i].id %>'>수정</a></th>
-            <th onclick="deleteajax('<%=result.data[i].id %>')">삭제</a></th>
+            <th><a href='/country/edit/<%=result.data[i]._id %>'>수정</a></th>
+            <th onclick="deleteajax('<%=result.data[i]._id %>')">삭제</a></th>
           </tr>
           <% } %>
         </tbody>
