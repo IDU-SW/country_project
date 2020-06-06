@@ -62,7 +62,11 @@ async function createmember(req, res) {
     try {
         const result = await country.createmember(data);
         console.log(result);
-        res.render('success', { msg: 'success', data: result[0] ,type:'member_create'});
+        if(result == 'fail'){
+            res.render('fail', { msg: 'id중복'});
+        }else{
+            res.render('success', { msg: 'success', data: result[0] ,type:'member_create'});
+        }
     } catch (error) {
         res.status(500).send(error.msg);
     }

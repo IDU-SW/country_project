@@ -83,6 +83,20 @@ class country {
         }
     }
 
+    async getmember(id) {
+        try {
+            let result = await member.findOne({ where: { member_id: { [Op.eq]: id } } });
+            if (result) {
+                return result.dataValues;
+            }
+            else {
+                return false;
+            }
+        } catch (error) {
+            console.log('Error :', error);
+        }
+    }
+
     async getcontry_comment(id) {
         try {
             let result = await Contry_comment.findAll({ where: { country_id: { [Op.eq]: id } } });
@@ -117,16 +131,21 @@ class country {
 
     async createmember(data) {
         let returnval;
+        console.log(data.member_id)
         const member_data = [data];
         try {
-            const creates = await member_data.map(item => member.create(item, { logging: false }));
-            await Promise.all(creates)
-                .then(ret => {
-                    const newAddIds = ret.map(result => result.dataValues);
-                    returnval = newAddIds;
-                }).catch(err => {
-                    console.error('member Create Failure :', err);
-                });
+            if (!await this.getmember(data.member_id)) {
+                const creates = await member_data.map(item => member.create(item, { logging: false }));
+                await Promise.all(creates)
+                    .then(ret => {
+                        const newAddIds = ret.map(result => result.dataValues);
+                        returnval = newAddIds;
+                    }).catch(err => {
+                        console.error('member Create Failure :', err);
+                    });
+            }else{
+                return 'fail';
+            }
         } catch (error) {
             console.log('Error :', error);
         }
