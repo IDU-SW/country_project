@@ -6,10 +6,13 @@ const country = require('../model/country');
 
 router.get('/', countryList);
 router.get('/add', countryaddform);
+router.get('/login', Loginform);
+router.get('/create_member', create_memberform);
 router.get('/:id', countryDetail);
 router.get('/edit/:id', countryEditform);
 router.post('/', addcountry);
 router.post('/comment', addcomment);
+router.post('/member', createmember);
 router.put('/', updatecountry);
 router.delete('/:id', deltecountry);
 
@@ -32,6 +35,13 @@ function countryaddform(req, res) {
     res.render('add');
 }
 
+function Loginform(req, res) {
+    res.render('login');
+}
+
+function create_memberform(req, res) {
+    res.render('create_member');
+}
 async function countryEditform(req, res) {
     const id = req.params.id;
     const data = await country.getcontrydetail(id);
@@ -43,6 +53,16 @@ async function addcountry(req, res) {
     try {
         const result = await country.addcontry(data);
         res.render('success', { msg: 'success', data: result[0], type: 'add' });
+    } catch (error) {
+        res.status(500).send(error.msg);
+    }
+}
+async function createmember(req, res) {
+    const data = req.body;
+    try {
+        const result = await country.createmember(data);
+        console.log(result);
+        res.render('success', { msg: 'success', data: result[0] ,type:'member_create'});
     } catch (error) {
         res.status(500).send(error.msg);
     }

@@ -1,11 +1,23 @@
 <% include include/head %>
 <div class="inner cover">
+    <%switch(type){
+        case 'add': %>
     <h1 class="cover-heading">성공</h1>
     <h4>국가명 : <%= data.country%></h4>
     <h4>수도명 : <%= data.capital%></h4>
     <h4>지역명 : <%= data.area%></h4>
     <h4>언어 : <%= data.language%></h4>
     <h4>화폐 : <%= data.currency%></h4>
+    
+    <% break;
+     case 'member_create' : %>
+     <h1 class="cover-heading">성공</h1>
+    <h4>name : <%= data.name%></h4>
+    <h4>id : <%= data.member_id%></h4>
+    <h4>pw : <%= data.member_pw%></h4>
+     <%
+     break;
+    } %>
     <p class="lead">
         <a href="/country" class="btn btn-lg btn-info">메인으로</a>
     </p>

@@ -31,7 +31,6 @@ class member extends Sequelize.Model { }
 member.init({
     member_id: Sequelize.STRING(40),
     member_pw: Sequelize.STRING(40),
-    reak: Sequelize.INTEGER,
     name:Sequelize.STRING(40)
 
 }, { tableName: 'member', timestamps: false, sequelize });
@@ -115,6 +114,25 @@ class country {
         }
         return returnval;
     }
+
+    async createmember(data) {
+        let returnval;
+        const member_data = [data];
+        try {
+            const creates = await member_data.map(item => member.create(item, { logging: false }));
+            await Promise.all(creates)
+                .then(ret => {
+                    const newAddIds = ret.map(result => result.dataValues);
+                    returnval = newAddIds;
+                }).catch(err => {
+                    console.error('member Create Failure :', err);
+                });
+        } catch (error) {
+            console.log('Error :', error);
+        }
+        return returnval;
+    }
+    
     async addcomment(data) {
         try {
             const ret = await Contry_comment.create({
