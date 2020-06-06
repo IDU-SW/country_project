@@ -26,6 +26,16 @@ Contry_comment.init({
 
 }, { tableName: 'Contry_comment', timestamps: false, sequelize });
 
+class member extends Sequelize.Model { }
+
+member.init({
+    member_id: Sequelize.STRING(40),
+    member_pw: Sequelize.STRING(40),
+    reak: Sequelize.INTEGER,
+    name:Sequelize.STRING(40)
+
+}, { tableName: 'member', timestamps: false, sequelize });
+
 class country {
     constructor() {
         try {
@@ -37,9 +47,10 @@ class country {
 
     async prepareModel() {
         try {
-            await Countries.sync({ force: true });
-            await Contry_comment.sync({ force: true });
+            await Countries.sync({ force: false });
+            await Contry_comment.sync({ force: false });
             Countries.hasMany(Contry_comment, { foreignKey: 'country_id' });
+            await member.sync({ force: false });
             // sequelize.close();
         }
         catch (error) {
