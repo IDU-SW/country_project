@@ -5,7 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var methodOverride = require("method-override");
 const favicon = require('serve-favicon');
-
+const bodyParser = require('body-parser');
 var indexRouter = require('./routes/index');
 const countryRouter = require('./routes/country');
 
@@ -22,6 +22,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.json());
 
 app.use('/', indexRouter);
 app.use('/country', countryRouter);
