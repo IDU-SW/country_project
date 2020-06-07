@@ -1,51 +1,144 @@
 <% include include/head %>
-  <body>
-    <h1 style="text-align: center;">Country</h1>
-    <div class="table-responsive">
-      <div class="col-2" style="float:left; font-size: 30px;">
-        <a href="/country/add" class="btn btn-primary btn-lg">
+
+<body>
+  <h1 style="text-align: center;">Country</h1><br>
+  <h4 style="text-align: right;"><span id="member_name">
+    </span></h4>
+  <div class="table-responsive">
+    <div class="col-2" style="float:left; font-size: 30px;">
+      <a onclick="country_add_from()" class="btn btn-primary btn-lg">
         <span class="glyphicon glyphicon-plus"> ADD</span>
-        </a>
-      </div>
-      <div class="col-6" style="float: right; font-size: 30px;">
-        <a href="/country/create_member" class="btn btn-primary btn-lg">
-          <span> create member</span>
-        </a>
-        <a href="/country/login" class="btn btn-primary btn-lg">
-          <span> login</span>
-        </a>
-        <a href="/country/add" class="btn btn-primary btn-lg">
-          <span> logout</span>
-        </a>
-      </div>
-      <table class="table table-striped table-sm">
-        <thead>
-          <tr>
-            <th>id</th>
-            <th>국가명</th>
-            <th>수도</th>
-            <th>지역</th>
-            <th>언어</th>
-            <th>화패</th>
-            <th>수정</th>
-            <th>삭제</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% for(i = 0 ; i < result.count ; i++){ %>
-          <tr>
-            <td><a href='/country/<%=result.data[i].id %>'><%= result.data[i].id %></a></td>
-            <td><%= result.data[i].country %></td>
-            <td><%= result.data[i].capital %></td>
-            <td><%= result.data[i].area %></td>
-            <td><%= result.data[i].language %></td>
-            <td><%= result.data[i].currency %></td>
-            <th><a href='/country/edit/<%=result.data[i].id %>'>수정</a></th>
-            <th onclick="deleteajax('<%=result.data[i].id %>')">삭제</a></th>
-          </tr>
-          <% } %>
-        </tbody>
-      </table>
+      </a>
     </div>
-  </body>
+    <div class="col-6" style="float: right; font-size: 30px;">
+      <a href="/country/create_member" class="btn btn-primary btn-lg">
+        <span> create member</span>
+      </a>
+      <button type="button" class="btn btn-primary btn-lg" id="login_btn" data-toggle="modal" data-target="#Login">
+        login
+      </button>
+      <a class="btn btn-primary btn-lg" onclick="logout()" id="logout_btn" style="display: none;">
+        <span> logout</span>
+      </a>
+    </div>
+    <table class="table table-striped table-sm">
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>국가명</th>
+          <th>수도</th>
+          <th>지역</th>
+          <th>언어</th>
+          <th>화패</th>
+          <th>수정</th>
+          <th>삭제</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for(i = 0 ; i < result.count ; i++){ %>
+        <tr>
+          <td><a href='/country/<%=result.data[i].id %>'><%= result.data[i].id %></a></td>
+          <td><%= result.data[i].country %></td>
+          <td><%= result.data[i].capital %></td>
+          <td><%= result.data[i].area %></td>
+          <td><%= result.data[i].language %></td>
+          <td><%= result.data[i].currency %></td>
+          <th><a href='/country/edit/<%=result.data[i].id %>'>수정</a></th>
+          <th onclick="deleteajax('<%=result.data[i].id %>')">삭제</a></th>
+        </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="Login" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">로그인</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div>
+            <input type="text" id="member_id" placeholder="User ID"> <br><br>
+            <input type="password" id="member_pw" placeholder="Password">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" onclick="login()" class="btn btn-primary">login</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+<script>
+  var jwt = "";
+  function login() {
+    const member_id = document.getElementById('member_id').value;
+    const member_pw = document.getElementById('member_pw').value;
+
+    if (!member_id || !member_pw) {
+      alert('no id, password');
+      return
+    }
+
+    fetch('/country/login', {
+      method: 'POST',
+      headers: [["Content-Type", "application/json"]],
+      body: JSON.stringify({ member_id, member_pw })
+    })
+      .then(response => {
+        const statusCode = response.status;
+        if (200 != statusCode) {
+          alert("로그인 실패");
+          return;
+        }
+        return response.json()
+      })
+      .then(data => {
+        const token = data.token;
+        console.log('login success. Token:', token);
+        jwt = token;
+        $("#Login").hide();
+        $("#member_id").val("");
+        $("#member_pw").val("");
+        $("#logout_btn").show();
+        $("#login_btn").hide();
+        $("#member_name").text(data.name + "님 환영합니다.");
+      })
+      .catch(error => {
+        console.error('login error :', error);
+      })
+
+  }
+  function logout() {
+    token = "";
+    $("#login_btn").show();
+    $("#logout_btn").hide();
+    $("#member_name").text("");
+  }
+  function country_add_from() {
+    fetch('/country/tokenchk', {
+      method: 'GET',
+      headers: [["Authorization", jwt]]
+    })
+    .then(response => {
+      console.log('response :', response);
+      const statusCode = response.status;
+      if (200 != statusCode) {
+        alert(response.statusText);
+        return;
+      }else{
+        location.href= "/country/add" 
+      }
+    })
+    .catch(error => {
+      console.error('country_add_from error :', error);
+    });
+  }
+</script>
 <% include include/foot %>
