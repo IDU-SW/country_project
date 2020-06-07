@@ -97,6 +97,20 @@ class country {
         }
     }
 
+    async memberlogin(data) {
+        try {
+            let result = await member.findOne({ where: { member_id: { [Op.eq]: data.member_id } } });
+            if (result.member_pw == data.member_pw) {
+                return result.dataValues;
+            }
+            else {
+                return false;
+            }
+        } catch (error) {
+            console.log('Error :', error);
+        }
+    }
+
     async getcontry_comment(id) {
         try {
             let result = await Contry_comment.findAll({ where: { country_id: { [Op.eq]: id } } });

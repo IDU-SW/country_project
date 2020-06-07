@@ -1,6 +1,9 @@
+const jwt = require('jsonwebtoken');
 const express = require('express');
 const router = express.Router();
 const country = require('../model/country');
+
+const secretKey = '202012709'
 
 
 
@@ -8,11 +11,13 @@ router.get('/', countryList);
 router.get('/add', countryaddform);
 router.get('/login', Loginform);
 router.get('/create_member', create_memberform);
+router.get('/tokenchk',tokenVerifier);
 router.get('/:id', countryDetail);
 router.get('/edit/:id', countryEditform);
 router.post('/', addcountry);
 router.post('/comment', addcomment);
 router.post('/member', createmember);
+router.post('/login', login);
 router.put('/', updatecountry);
 router.delete('/:id', deltecountry);
 
@@ -29,6 +34,17 @@ async function countryDetail(req, res) {
     const data = await country.getcontrydetail(id);
     const comment = await country.getcontry_comment(id);
     res.render('detail', { result: data ,comment:comment});
+}
+
+async function login(req, res) {
+    const login_data = req.body;
+    const data = await country.memberlogin(login_data);
+    if (data != undefined) {
+        const token = jwt.sign({ id: data.member_id, name: data.name }, secretKey);
+        res.send({ msg: 'success', token: token ,name:data.name });
+    } else {
+        res.sendStatus(401)
+    }
 }
 
 function countryaddform(req, res) {
@@ -71,6 +87,7 @@ async function createmember(req, res) {
         res.status(500).send(error.msg);
     }
 }
+
 async function addcomment(req, res) {
     const data = req.body;
     try {
@@ -104,4 +121,24 @@ async function deltecountry(req, res) {
     } catch (error) {
         res.status(500).send(error.msg);
     }
+}
+
+function tokenVerifier(req, res) {
+    let token = req.headers['authorization'];
+    if (token) {
+        jwt.verify(token, secretKey, (err, decoded) => {
+            if (decoded) {
+                console.log(decoded);
+                res.send(decoded);
+            }
+            else {
+                res.statusMessage = 'fail decoded';
+                res.status(500).end();
+            }            
+        });
+    }
+    else {
+        res.statusMessage ='not token';
+        res.status(500).end();
+    }    
 }
