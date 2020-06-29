@@ -2,8 +2,9 @@ const jwt = require('jsonwebtoken');
 const express = require('express');
 const router = express.Router();
 const country = require('../model/country');
+const config = require(__dirname + '/../config/jwt_key.json')
 
-const secretKey = '202012709'
+const secretKey = config.secretKey;
 
 
 
