@@ -1,10 +1,15 @@
 const fs = require('fs');
 const Sequelize = require('sequelize');
+const config = require(__dirname + '/../config/config.json')['production'];
 
-const sequelize = new Sequelize('example', 'dev', 'cometrue', {
-    dialect: 'mysql',
-    host: '127.0.0.1',
+const sequelize = new Sequelize({
+    username: config.username,
+    password: config.password,
+    database: config.database,
+    host: config.host,
+    dialect: 'mysql'
 });
+
 
 const Op = Sequelize.Op
 
