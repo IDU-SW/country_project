@@ -3,16 +3,18 @@ const express = require('express');
 const router = express.Router();
 const country = require('../model/country');
 const config = require(__dirname + '/../config/jwt_key.json')
+const { verifyToken } = require('../middlewares/authorization');
 
-const secretKey = config.secretKey;
+const YOUR_SECRET_KEY = config.secretKey;
 
 
 
 router.get('/', countryList);
-router.get('/add', countryaddform);
+router.get('/add',verifyToken, countryaddform);
 router.get('/login', Loginform);
+router.get('/logout', logout);
 router.get('/create_member', create_memberform);
-router.get('/tokenchk',tokenVerifier);
+router.post('/tokenchk',tokenchk);
 router.get('/:id', countryDetail);
 router.get('/edit/:id', countryEditform);
 router.post('/', addcountry);
@@ -41,7 +43,8 @@ async function login(req, res) {
     const login_data = req.body;
     const data = await country.memberlogin(login_data);
     if (data != undefined) {
-        const token = jwt.sign({ id: data.member_id, name: data.name }, secretKey ,{expiresIn: '1h'});
+        const token = jwt.sign({ id: data.member_id, name: data.name }, YOUR_SECRET_KEY ,{expiresIn: '3s'});
+        res.cookie('user', token);
         res.send({ msg: 'success', token: token ,name:data.name });
     } else {
         res.sendStatus(401)
@@ -49,6 +52,7 @@ async function login(req, res) {
 }
 
 function countryaddform(req, res) {
+    console.log('/111')
     res.render('add');
 }
 
@@ -124,22 +128,35 @@ async function deltecountry(req, res) {
     }
 }
 
-function tokenVerifier(req, res) {
-    let token = req.headers['authorization'];
-    if (token) {
-        jwt.verify(token, secretKey, (err, decoded) => {
-            if (decoded) {
-                console.log(decoded);
-                res.send(decoded);
-            }
-            else {
-                res.statusMessage = 'fail decoded';
-                res.status(500).end();
-            }            
+function logout(req, res) {
+    res.clearCookie('user');
+    res.status(200).end();
+}
+
+function tokenchk(req, res) {
+    // let token = req.headers['authorization'];
+    let token = req.body.data;
+    if (!token) {
+        res.status(400).json({
+            'status': 400,
+            'msg': 'Token 없음'
         });
     }
-    else {
-        res.statusMessage ='not token';
-        res.status(500).end();
-    }    
+    const checkToken = new Promise((resolve, reject) => {
+        jwt.verify(token, YOUR_SECRET_KEY, function (err, decoded) {
+            if (err) reject(err);
+            resolve(decoded);
+        }); 
+    });
+
+    checkToken.then(
+        token => {
+            console.log(token);
+            res.status(200).json({
+                'status': 200,
+                'msg': 'success',
+                token
+            });
+        }
+    )
 }
