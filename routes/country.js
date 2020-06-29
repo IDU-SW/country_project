@@ -41,7 +41,7 @@ async function login(req, res) {
     const login_data = req.body;
     const data = await country.memberlogin(login_data);
     if (data != undefined) {
-        const token = jwt.sign({ id: data.member_id, name: data.name }, secretKey);
+        const token = jwt.sign({ id: data.member_id, name: data.name }, secretKey ,{expiresIn: '1h'});
         res.send({ msg: 'success', token: token ,name:data.name });
     } else {
         res.sendStatus(401)
