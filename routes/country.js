@@ -11,13 +11,12 @@ const YOUR_SECRET_KEY = config.secretKey;
 
 router.get('/', countryList);
 router.get('/add',verifyToken, countryaddform);
-router.get('/login', Loginform);
+router.get('/edit/:id', verifyToken, countryEditform);
 router.get('/logout', logout);
 router.get('/create_member', create_memberform);
-router.post('/tokenchk',tokenchk);
 router.get('/:id', countryDetail);
-router.get('/edit/:id', verifyToken, countryEditform);
 router.post('/', verifyToken, addcountry);
+router.post('/tokenchk',tokenchk);
 router.post('/comment',verifyToken, addcomment);
 router.post('/member', createmember);
 router.post('/login', login);
@@ -56,9 +55,6 @@ function countryaddform(req, res) {
     res.render('add');
 }
 
-function Loginform(req, res) {
-    res.render('login');
-}
 
 function create_memberform(req, res) {
     res.render('create_member');
@@ -82,7 +78,6 @@ async function createmember(req, res) {
     const data = req.body;
     try {
         const result = await country.createmember(data);
-        console.log(result);
         if(result == 'fail'){
             res.render('fail', { msg: 'id중복'});
         }else{
