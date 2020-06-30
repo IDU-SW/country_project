@@ -43,7 +43,7 @@ async function login(req, res) {
     const login_data = req.body;
     const data = await country.memberlogin(login_data);
     if (data != undefined) {
-        const token = jwt.sign({ id: data.member_id, name: data.name }, YOUR_SECRET_KEY ,{expiresIn: '3s'});
+        const token = jwt.sign({ id: data.member_id, name: data.name }, YOUR_SECRET_KEY ,{expiresIn: '1h'});
         res.cookie('user', token);
         res.send({ msg: 'success', token: token ,name:data.name });
     } else {
@@ -95,6 +95,7 @@ async function createmember(req, res) {
 
 async function addcomment(req, res) {
     const data = req.body;
+    data.writer = res.locals.userId;
     try {
         const result = await country.addcomment(data);
         res.redirect('/country/'+data.id);
