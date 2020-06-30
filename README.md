@@ -73,7 +73,7 @@ node ./bin/www
 
 #### 응답
 
-get_country
+![](https://github.com/IDU-SW/country_project/blob/master/img/get_country.PNG?raw=true)
 
 ---
 
@@ -89,7 +89,7 @@ get_country
 
 #### 응답
 
-get_country_add
+![](https://github.com/IDU-SW/country_project/blob/master/img/get_country_add.PNG?raw=true)
 
 --------
 
@@ -105,7 +105,7 @@ get_country_add
 
 #### 응답
 
-#####  get_country_id
+#####  ![](https://github.com/IDU-SW/country_project/blob/master/img/get_country_id.PNG?raw=true)
 
 ---
 
@@ -121,7 +121,7 @@ get_country_add
 
 #### 응답
 
-#####  
+#####  ![](https://github.com/IDU-SW/country_project/blob/master/img/get_country_edit.PNG?raw=true)
 
 ---
 
@@ -134,8 +134,6 @@ get_country_add
 |     URL     | /country/logout  |
 |   URL 예    | /country/logout  |
 | 요청 메소드 | GET              |
-
-#### 응답
 
 ---
 
@@ -151,7 +149,7 @@ get_country_add
 
 #### 응답
 
-##### 
+![](https://github.com/IDU-SW/country_project/blob/master/img/get_createmember.PNG?raw=true)
 
 ------
 
