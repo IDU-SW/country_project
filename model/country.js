@@ -27,6 +27,7 @@ class Contry_comment extends Sequelize.Model { }
 
 Contry_comment.init({
     country_id: Sequelize.INTEGER,
+    writer:Sequelize.STRING(20),
     comment: Sequelize.STRING(100),
 
 }, { tableName: 'Contry_comment', timestamps: false, sequelize });
@@ -175,6 +176,7 @@ class country {
         try {
             const ret = await Contry_comment.create({
                 country_id: data.id,
+                writer:data.writer,
                 comment: data.country
             }, { logging: false });
             const newData = ret.dataValues;
