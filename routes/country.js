@@ -16,13 +16,13 @@ router.get('/logout', logout);
 router.get('/create_member', create_memberform);
 router.post('/tokenchk',tokenchk);
 router.get('/:id', countryDetail);
-router.get('/edit/:id', countryEditform);
-router.post('/', addcountry);
-router.post('/comment', addcomment);
+router.get('/edit/:id', verifyToken, countryEditform);
+router.post('/', verifyToken, addcountry);
+router.post('/comment',verifyToken, addcomment);
 router.post('/member', createmember);
 router.post('/login', login);
-router.put('/', updatecountry);
-router.delete('/:id', deltecountry);
+router.put('/',verifyToken, updatecountry);
+router.delete('/:id',verifyToken, deltecountry);
 
 module.exports = router;
 
